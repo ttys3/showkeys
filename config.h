@@ -3,7 +3,7 @@
 */
 
 /* Display font, select a font using 'xfontsel -scaled' */
-#define SK_FONT     "-*-courier*-*-*-*-*-60-*-*-*-*-*-*-*"
+#define SK_FONT     "-*-courier*-*-*-*-*-120-*-*-*-*-*-*-*"
 
 /* Display position, possible values: XOSD_top, XOSD_bottom */
 #define SK_POS      XOSD_top
@@ -50,7 +50,7 @@
 #define SK_SHOFFSET 3
 
 /* Hide display after N seconds, set to -1 to never hide */
-#define SK_TIMEOUT  1
+#define SK_TIMEOUT  3
 
 /* By default, repeated key presses will be shown as "n 3 times".
    If you want to display each key press separately, change this
