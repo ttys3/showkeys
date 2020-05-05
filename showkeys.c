@@ -69,13 +69,71 @@ configure_osd(int lines)
   osd = xosd_create (NKEYS);
 
   xosd_set_font(osd, SK_FONT);
-  xosd_set_pos(osd, SK_POS);
-  xosd_set_align(osd, SK_ALIGN);
-  xosd_set_colour(osd, SK_FG);
-  xosd_set_outline_colour(osd, SK_OUTLINE);
-  xosd_set_outline_offset(osd, SK_OFFSET);
-  xosd_set_shadow_colour(osd, SK_SHADOW);
+
+    xosd_pos sk_pos = SK_POS;
+    char *sk_pos_var = getenv("SK_POS");
+    if (sk_pos_var && !strcmp(sk_pos_var, "top")) {
+        sk_pos = XOSD_top;
+    } else if (sk_pos_var && !strcmp(sk_pos_var, "bottom")) {
+        sk_pos = XOSD_bottom;
+    }
+    /* Display position, possible values: XOSD_top, XOSD_bottom */
+  xosd_set_pos(osd, sk_pos);
+
+    xosd_align sk_align = SK_ALIGN;
+    char *sk_align_var = getenv("SK_ALIGN");
+    if (sk_align_var) {
+        if (!strcmp(sk_align_var, "center")) {
+            sk_align = XOSD_center;
+        } else if (!strcmp(sk_align_var, "left")) {
+            sk_align = XOSD_left;
+        } else if (!strcmp(sk_align_var, "right")) {
+            sk_align = XOSD_right;
+        }
+    }
+    /* Display alignment, possible values: XOSD_right, XOSD_center, XOSD_left, */
+  xosd_set_align(osd, sk_align);
+    debug_print("set align: %d", sk_align);
+
+    char *sk_fg = getenv("SK_FG");
+    sk_fg = (sk_fg == NULL) ? SK_FG : sk_fg;
+  xosd_set_colour(osd, sk_fg);
+    debug_print("set front color: %s", sk_fg);
+
+  int sk_offset = SK_OFFSET;
+    char *sk_offset_var = getenv("SK_OFFSET");
+    if (sk_offset_var) {
+        int tmp_offset = atoi(sk_offset_var);
+        if (tmp_offset > 0 && tmp_offset < 1920) {
+            sk_offset = tmp_offset;
+        }
+    }
+    xosd_set_vertical_offset(osd, sk_offset);
+    debug_print("set vertical offset: %d", sk_offset);
+
+    int sk_h_offset = SK_H_OFFSET;
+    char *sk_h_offset_var = getenv("SK_H_OFFSET");
+    if (sk_h_offset_var) {
+        int tmp_h_offset = atoi(sk_h_offset_var);
+        if (tmp_h_offset > 0 && tmp_h_offset < 1080) {
+            sk_h_offset = tmp_h_offset;
+        }
+    }
+    xosd_set_horizontal_offset(osd, sk_h_offset);
+    debug_print("set horizontal offset: %d", sk_h_offset);
+
+    char *sk_ol = getenv("SK_OUTLINE");
+    sk_ol = (sk_ol == NULL) ? SK_OUTLINE : sk_ol;
+  xosd_set_outline_colour(osd, sk_ol);
+    debug_print("set outline colour: %s", sk_ol);
+  xosd_set_outline_offset(osd, SK_OL_OFFSET);
+
+    char *sk_sd = getenv("SK_SHADOW");
+    sk_sd = (sk_sd == NULL) ? SK_SHADOW : sk_sd;
+  xosd_set_shadow_colour(osd, sk_sd);
+    debug_print("set shadow colour: %s", sk_sd);
   xosd_set_shadow_offset(osd, SK_SHOFFSET);
+
   xosd_set_timeout(osd, SK_TIMEOUT);
 
   return osd;
@@ -88,8 +146,10 @@ display_keystrokes(xosd *osd, KeyStack *stack)
   for(i = 0; i < NKEYS; i++) {
     if (stack->keystrokes[i].keyname) {
       if (stack->keystrokes[i].times == 1) {
+          debug_print("got: %s\n", stack->keystrokes[i].keyname);
 	xosd_display(osd, i, XOSD_printf, "%s", stack->keystrokes[i].keyname);
       } else {
+          debug_print("got: %s %d times\n", stack->keystrokes[i].keyname, stack->keystrokes[i].times);
 	xosd_display(osd, i, XOSD_printf, "%s %d times", stack->keystrokes[i].keyname, stack->keystrokes[i].times);
       }
     }

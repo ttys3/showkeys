@@ -50,16 +50,26 @@ push(KeyStack *stack, char *keyname)
   KeyStroke *last;
   char *last_key;
 
-  last = &stack->keystrokes[stack->pos];
-  last_key = last->keyname;
+  if (stack->pos > -1) {
+      last = &stack->keystrokes[stack->pos];
+      last_key = last->keyname;
+  }
   index = stack->pos + 1;
 
+  debug_print("push(): stack->pos: %d\n", stack->pos);
+
 #ifdef SK_NO_REPEATS
+  if (last_key) {
+      debug_print("SK_NO_REPEATS: index: %d, equal: last_key: %s, new keyname: %s\n", index, last_key, keyname);
+  } else {
+      debug_print("SK_NO_REPEATS: index: %d, equal: last_key is NULL, new keyname: %s\n", index, keyname);
+  }
   if (index && ! strcmp (last_key, keyname)) {
     /* If the same as the top of the stack, increment count */
     last->times ++;
   } else {
 #endif
+      debug_print("REPEATS: Add a new entry: keyname: %s\n", keyname);
     /* Add a new entry */
     if (index == stack->size) {
       push_back(stack, stack->pos);
@@ -77,10 +87,10 @@ push(KeyStack *stack, char *keyname)
 void
 display_keystack(KeyStack *stack)
 {
-  int i;
-  printf("---- Keystack ----\n");
-  for (i = 0; i <= stack->pos; i++) {
-    printf("%s %d times\n", stack->keystrokes[i].keyname, stack->keystrokes[i].times);
-  }
-  printf("---- -------- ----\n\n");
+    int i;
+    debug_print("---- Keystack ----");
+    for (i = 0; i <= stack->pos; i++) {
+        debug_print("%s %d times", stack->keystrokes[i].keyname, stack->keystrokes[i].times);
+    }
+    debug_print("---- -------- ----\n");
 }
