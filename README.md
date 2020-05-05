@@ -1,6 +1,24 @@
 Showkeys
 --------
 
+> this is a mod version of <https://github.com/nibrahim/showkeys>
+>
+> with NO REPEATS bug fixed
+>
+> with `KeyStack` size fixed to 1
+>
+> allow user config via OS env vars
+
+![](img/showkeys.gif)
+```ini
+SK_POS=[top|bottom], default to top
+SK_ALIGN=[center|left|right], default to center
+SK_FG=X11 rgb.txt color, default to OliveDrab
+SK_OFFSET=vertical offset, default to 400
+SK_H_OFFSET=horizontal offset, default to 0
+SK_OUTLINE=outline color, default to Black
+SK_OL_OFFSET=shadow color, default to Olive
+```
 
 Showkeys is a simple program to display keys being pressed on the screen. 
 
@@ -39,6 +57,18 @@ Compiling
 1. Unzip the tarball.
 2. Edit the file `config.h` configure showkeys.
 3. Run `make showkeys`. It should create the executable. 
+
+for Fedora users:
+
+xorg-x11-utils provides `xdpyinfo`
+xorg-x11-apps provides `xfontsel`
+
+```bash
+git clone https://github.com/ttys3/showkeys.git
+sudo dnf install -y xosd-devel xorg-x11-apps xorg-x11-utils
+cd showkeys
+make showkeys
+```
 
 This program uses some [Gnu extensions to libc](http://www.crasseux.com/books/ctutorial/asprintf.html) so might not work with a pure POSIX libc.
 
