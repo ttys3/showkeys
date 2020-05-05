@@ -15,20 +15,21 @@
 #endif
 
 typedef struct {
-  char *keyname;
-  int times;
+    char *keyname;
+    int times;
 } KeyStroke;
 
 typedef struct {
-  int size;
-  int pos;
-  KeyStroke *keystrokes;
+    int size;
+    int pos;
+    KeyStroke *keystrokes;
 } KeyStack;
 
 
-
 KeyStack *create_keystack();
+
 void push(KeyStack *, char *);
+
 void display_keystack(KeyStack *);
 
 
