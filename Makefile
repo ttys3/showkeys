@@ -6,7 +6,7 @@ keystack.o: keystack.c keystack.h
 	gcc -c -g keystack.c
 
 clean:
-	rm showkeys keystack.o record-attempt record-example
+	rm -f showkeys keystack.o record-attempt record-example
 
 check-syntax:
 	gcc -Wall -o nul -S ${CHK_SOURCES}
