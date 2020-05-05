@@ -56,7 +56,7 @@ create_emacs_keyname(char *keyname, int meta, int ctrl, int shift) {
     char *retval;
     /* TBD: Handle <. > and others like that wehere XLookupString gives the right values */
     /* printf("%d %d %d ", meta, ctrl, shift); */
-    asprintf(&retval, "%s%s%s%s", ctrl ? "C-" : "", meta ? "M-" : "", shift ? "S-" : "", keyname);
+    asprintf(&retval, "%s%s%s%s", ctrl ? "Ctrl-" : "", meta ? "Meta-" : "", shift ? "Shift-" : "", keyname);
     /* printf(" %s\n",retval); */
     return retval;
 }
