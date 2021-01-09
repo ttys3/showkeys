@@ -5,3 +5,6 @@ showkeys
 *~
 xev.c
 *.o
+cmake-build-debug
+/.idea
+/.vscode
